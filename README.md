@@ -6,4 +6,4 @@ See it live at https://mortgage-years.herokuapp.com/
 
 Screenshot:
 
-![screenshot](screenshot.png | width=500)
+![screenshot](screenshot.png width=500)
