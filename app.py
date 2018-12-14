@@ -12,7 +12,7 @@ app = dash.Dash(
     external_stylesheets=stylesheet
 )
 #app.config['suppress_callback_exceptions']=True
-
+server = app.server
 
 styledict_slidertitle=dict(display='inline-block',padding='4px',textAlign='right',width="60%")
 styledict_slider=dict(display='inline-block',padding='2px',textAlign='center',width="35%")
@@ -235,7 +235,8 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
 )
 def return_decision(n_clicks,optimism,blind_faith,sleep_at_night,discipline,job_stability,risk_tolerance,years):
     # compute whether to pay off early
-
+    if n_clicks==0:
+        return ""
     quotient = sum([optimism,blind_faith,100-sleep_at_night,discipline,job_stability,np.sqrt(risk_tolerance*100)])/600
     print(quotient,"\n",np.sqrt(risk_tolerance*100))
     print(optimism,blind_faith,sleep_at_night,discipline,job_stability,risk_tolerance)
@@ -270,4 +271,4 @@ If you were to get a mortgage despite that, you should pay it off as soon as you
 
 
 if __name__ == '__main__':
-    app.run_server(threaded=True,debug=True)
+    app.run_server(threaded=True,debug=False)
