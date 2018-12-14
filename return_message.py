@@ -4,12 +4,9 @@ header_text = """
 ## Should I pay off my mortgage early? 🏡
 
 The decision to pay off your mortgage early can be tough -
-it depends on many factors and there are many risks and 
-probabilities to consider.
-
-This paying-your-mortgage-off-early calculator makes it easy to decide
-**whether** to pay off your mortgage early and, if so, 
-**how early** to pay it off.
+this paying-your-mortgage-off-early calculator makes it 
+easy to decide **whether** to pay off your mortgage early 
+and, if so, **how early** to pay it off.
 
 ---
 """

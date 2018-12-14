@@ -50,7 +50,15 @@ app.layout = html.Div([
     # header
     html.Div([
        dcc.Markdown(header_text)
-    ],style=markdown_style),
+    ],style=dict(
+        display='block',
+        textAlign='left',
+        width="100vw",
+        maxWidth="500px",
+        margin='auto',
+        paddingBottom="0px"
+    )),
+    
     # contains the input
     html.Div([
         # market optimism
@@ -69,7 +77,7 @@ app.layout = html.Div([
                     marks={
                         1:dict(label="📉",style=dict(fontSize=20)),
                         100:dict(label="📈",style=dict(fontSize=20))
-                    }
+                    },
                 ),
             ],style=styledict_slider),
             html.Div(
@@ -223,7 +231,7 @@ app.layout = html.Div([
                 ],
             ),            
         ],style=styledict_slider),
-    ],style=dict(margin='auto',paddingTop="20px")),
+    ],style=dict(margin='auto',paddingTop="0px")),
 
     # contains the output
     html.Div([
@@ -234,9 +242,10 @@ app.layout = html.Div([
             n_clicks=0
         ),
         dcc.Markdown(
+            """Your results go here! 🙌"""
             id='output-markdown',
             containerProps=dict(
-                style=dict(fontSize='20',textAlign='center',paddingTop='25px',width="100vw",maxWidth="550px",margin='auto')
+                style=dict(textAlign='center',paddingTop='25px',width="100vw",maxWidth="550px",margin='auto')
             )
         )
     ],style=dict(textAlign='center')),
