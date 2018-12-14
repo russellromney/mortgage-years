@@ -5,18 +5,37 @@ import dash_html_components as html
 import dash_renderer
 from dash.dependencies import Input, Output, State
 
+from return_message import return_message,header_text
+
 stylesheet = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
+
+metas = [
+    dict(name='viewport',content="width=device-width, initial-scale=1.0")
+]
 
 app = dash.Dash(
     __name__,
-    external_stylesheets=stylesheet
+    external_stylesheets=stylesheet,
+    meta_tags=metas
 )
-#app.config['suppress_callback_exceptions']=True
+
 server = app.server
 
-styledict_slidertitle=dict(display='inline-block',padding='4px',textAlign='right',width="60%")
-styledict_slider=dict(display='inline-block',padding='2px',textAlign='center',width="35%")
-styledict_emoji=dict(display='inline-block',padding='2px',textAlign='center',width="0%")
+styledict_slidertitle=dict(paddingBottom="0px",textAlign='center',width="100vw",maxWidth="400px",margin='auto')
+styledict_slider=dict(paddingTop="0px",paddingBottom='30px',textAlign='center',width="100vw",maxWidth="400px",margin='auto')
+styledict_emoji=dict(display="none",padding='4px',textAlign='center')
+slider_div_style=dict(display='block',padding='4px',textAlign='center',)
+markdown_props=dict(
+    style=dict(
+        display='block',
+        textAlign='left',
+        width="100vw",
+        maxWidth="500px",
+        margin='auto'
+    )
+)
+markdown_style=markdown_props['style']
+
 marks_ = {
     1:dict(label="👎",style=dict(fontSize=20)),
     100:dict(label="👍",style=dict(fontSize=20))
@@ -30,31 +49,15 @@ def slider_pic(num):
 app.layout = html.Div([
     # header
     html.Div([
-       dcc.Markdown(
-"""
-## Should I pay off my mortgage early? 🏡
-
-The decision to pay off your mortgage early can be tough --
-it depends on many factors and there are many risks, 
-probabilities, and factors to consider.
-
-This calculator makes it easy to decide
-**Whether** to pay off your mortgage early and, if so, **how early** to pay it off.
-
-Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should-i-pay-off-my-mortgage-early-or-invest). 
-""",
-            containerProps=dict(
-                style=dict()
-            )
-        )
-    ],style=dict(display='block',textAlign='left',width='90%',marginLeft='auto',marginRight='auto')),
+       dcc.Markdown(header_text)
+    ],style=markdown_style),
     # contains the input
     html.Div([
         # market optimism
         html.Div([
-            html.H6(
+            dcc.Markdown(
                 "I think market growth will continue.",
-                style=styledict_slidertitle
+                containerProps=dict(style=styledict_slidertitle)
             ),
             html.Div([
                 dcc.Slider(
@@ -62,8 +65,11 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
                     min=0,
                     max=100,
                     step=4,
-                    value=80,
-                    marks=marks_
+                    value=85,
+                    marks={
+                        1:dict(label="📉",style=dict(fontSize=20)),
+                        100:dict(label="📈",style=dict(fontSize=20))
+                    }
                 ),
             ],style=styledict_slider),
             html.Div(
@@ -73,9 +79,9 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
         ]),
         # blind faith that the future will be good
         html.Div([
-            html.H6(
+            dcc.Markdown(
                 "I think the future will be pretty good.",
-                style=styledict_slidertitle
+                containerProps=dict(style=styledict_slidertitle)
             ),
             html.Div([
                 dcc.Slider(
@@ -83,20 +89,23 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
                     min=0,
                     max=100,
                     step=4,
-                    value=80,
-                    marks=marks_
+                    value=85,
+                    marks={
+                        1:dict(label="😥",style=dict(fontSize=20)),
+                        100:dict(label="😀",style=dict(fontSize=20))
+                    }                                        
                 ),
             ],style=styledict_slider),
             html.Div(
                 id='blind-faith-emoji',
                 style=styledict_emoji
             )
-        ]),
+        ],),
         # how well you want to sleep at night
         html.Div([
-            html.H6(
-                "Does carrying debt make you uncomfortable?",
-                style=styledict_slidertitle
+            dcc.Markdown(
+                "I sleep better knowing my mortgage is paid off.",
+                containerProps=dict(style=styledict_slidertitle)
             ),
             html.Div([
                 dcc.Slider(
@@ -105,19 +114,22 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
                     max=100,
                     step=4,
                     value=20,
-                    marks=marks_
+                    marks={
+                        1:dict(label="💤",style=dict(fontSize=20)),
+                        100:dict(label="💤💤💤💤💤💤",style=dict(fontSize=20))
+                    }                    
                 ),
             ],style=styledict_slider),
             html.Div(
                 id='sleep-at-night-emoji',
                 style=styledict_emoji
             )
-        ]),
+        ],),
         # "waiting skills" (investing discipline)        
         html.Div([
-            html.H6(
-                "Do you invest rather than spend extra money?",
-                style=styledict_slidertitle
+            dcc.Markdown(
+                "I invest rather than spend extra money.",
+                containerProps=dict(style=styledict_slidertitle)
             ),
             html.Div([
                 dcc.Slider(
@@ -126,19 +138,22 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
                     max=100,
                     step=4,
                     value=60,
-                    marks=marks_
+                    marks={
+                        1:dict(label="💸",style=dict(fontSize=20)),
+                        100:dict(label="💰",style=dict(fontSize=20))
+                    }
                 ),
             ],style=styledict_slider),
             html.Div(
                 id='discipline-emoji',
                 style=styledict_emoji
             )
-        ]),
+        ],),
         # job loss risk
         html.Div([
-            html.H6(
-                "How stable will your job/income be?",
-                style=styledict_slidertitle
+            dcc.Markdown(
+                "My job/income is stable.",
+                containerProps=dict(style=styledict_slidertitle)
             ),
             html.Div([
                 dcc.Slider(
@@ -146,20 +161,23 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
                     min=0,
                     max=100,
                     step=4,
-                    value=80,
-                    marks=marks_
+                    value=85,
+                    marks={
+                        1:dict(label="⁉️",style=dict(fontSize=20)),
+                        100:dict(label="✅",style=dict(fontSize=20))
+                    }
                 ),
             ],style=styledict_slider),
             html.Div(
                 id='job-stability-emoji',
                 style=styledict_emoji
             )
-        ]),
+        ],),
         # risk tolerance in investing (stocks vs "guaranteed return of housing")        
         html.Div([
-            html.H6(
-                "How comfortable are you with risk?",
-                style=styledict_slidertitle
+            dcc.Markdown(
+                "I'm comfortable with some financial risk.",
+                containerProps=dict(style=styledict_slidertitle)
             ),
             html.Div([
                 dcc.Slider(
@@ -167,52 +185,72 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
                     min=0,
                     max=100,
                     step=4,
-                    value=80,
-                    marks=marks_
+                    value=85,
+                    marks={
+                        1:dict(label="🙀",style=dict(fontSize=20)),
+                        100:dict(label="😼",style=dict(fontSize=20))
+                    }
                 ),
             ],style=styledict_slider),
             html.Div(
                 id='risk-tolerance-emoji',
                 style=styledict_emoji
             )
-        ]),
+        ],),
         # of mortgage years
         html.Div([
-            html.H6(
-                "How many years is your mortgage?",
-                style=styledict_slidertitle
+            dcc.Markdown(
+                "Mortgage years left: 📅",
+                containerProps=dict(style=dict(display='inline-block'))
             ),
             dcc.Input(
                 id="years-input",
-                style=dict(fontSize=25,display='inline-block'),
                 type='number',
                 min=1,
-                max=100,
+                max=50,
+                list='input-list',
+                style=dict(width="100vw",maxWidth="200px",fontSize=25,display='inline-block')
             ),
-        ]),
-    ],style=dict(textAlign='center',marginLeft='auto',marginRight='auto')),
+            html.Datalist(
+                id="input-list",
+                children=[
+                    html.Option(value=5),
+                    html.Option(value=10),
+                    html.Option(value=15),
+                    html.Option(value=20),
+                    html.Option(value=25),
+                    html.Option(value=30),
+                ],
+            ),            
+        ],style=styledict_slider),
+    ],style=dict(margin='auto',paddingTop="20px")),
 
     # contains the output
     html.Div([
         html.Button(
-            "Tell me how quickly to pay off my mortgage! 💰",
+            "Tell me if I should pay off my mortgage early! 💰",
             id='submit-button',
-            style=dict(fontSize=20,backgroundColor="skyBlue",color="black"),
+            style=dict(fontSize=20,backgroundColor="skyBlue",color="black",width="100vw",maxWidth="300px",whiteSpace='normal',lineHeight='normal',height="100%"),
             n_clicks=0
         ),
         dcc.Markdown(
             id='output-markdown',
             containerProps=dict(
-                style=dict(fontSize='20',textAlign='center')
+                style=dict(fontSize='20',textAlign='center',paddingTop='25px',width="100vw",maxWidth="550px",margin='auto')
             )
         )
     ],style=dict(textAlign='center')),
-    html.Div(
-        [dcc.Markdown("""Made with ❤️ by [Russell](https://github.com/russellromney)""",
-        containerProps=dict(style=dict(textAlign='center')))],
-        style=dict(height="500px")
-        )
-],style=dict(width="90%"))
+    html.Div([
+        dcc.Markdown(
+"""
+Made with ❤️ by [Russell](https://github.com/russellromney)
+
+#inspired by an [article on Chris Reining's blog](https://chrisreining.com/should-i-pay-off-my-mortgage-early-or-invest) 💡 
+""",
+            containerProps=dict(style=dict(textAlign='center',paddingTop="10vw"))
+        ),
+    ],style=styledict_slider)
+],style=dict(marginLeft='auto',marginRight='auto'))
 
 
 
@@ -231,40 +269,9 @@ Inspired by an [article on Chris Reining's blog](https://chrisreining.com/should
      State("discipline-slider",'value'),
      State("job-stability-slider",'value'),
      State("risk-tolerance-slider",'value'),
-     State("years-input",'value')]
-)
-def return_decision(n_clicks,optimism,blind_faith,sleep_at_night,discipline,job_stability,risk_tolerance,years):
-    # compute whether to pay off early
-    if n_clicks==0:
-        return ""
-    quotient = sum([optimism,blind_faith,100-sleep_at_night,discipline,job_stability,np.sqrt(risk_tolerance*100)])/600
-    print(quotient,"\n",np.sqrt(risk_tolerance*100))
-    print(optimism,blind_faith,sleep_at_night,discipline,job_stability,risk_tolerance)
-    if quotient > 0.8:
-        return """
-###### Good news! You don't need to worry about paying off your mortgage early. 
-
-It sounds like you believe in a future of continued returns, you're not worried about your income, and you don't mind risk or carrying a little debt to leverage your returns. Congrats! Have a cheap glass of boxed wine and keep doing what you're doing. 
-
-(Technically this tool calculates that you should pay back your mortgage in about **{} years** -- but you're probably fine. Consider that number a fun thought experiement rather than a hard recommendation)
-""".format(round(quotient*years,1))
-    # compute how early to pay off
-    elif quotient > 0.3:
-        return """
-###### You should think about paying off your mortgage a little earlier!
-
-##### I should pay off my mortgage in about: **{} years**
-
-Sounds like you're a little more cautious about debt, income stability, or continuing market returns. That's okay! Just make your risks a little smaller and reduce interest costs a little bit by putting a little extra money toward your mortgage each month.
-""".format(round(quotient*years,1))
-    else:
-        return """
-###### You might want to consider renting instead of a mortgage! 
-
-Mortages are long-term debt obligations that depend on a stable economic outlook, some risk tolerance, and income stability. You might not like the risk or debt obligation that comes with a mortgage. That's okay! 
-
-If you were to get a mortgage despite that, you should pay it off as soon as you can -- in about **{}** years. 
-""".format(round(quotient*years,1))
+     State("years-input",'value')])
+def return_markdown(n_clicks,optimism,blind_faith,sleep_at_night,discipline,job_stability,risk_tolerance,years):
+    return return_message(n_clicks,optimism,blind_faith,sleep_at_night,discipline,job_stability,risk_tolerance,years)
 
 
 
