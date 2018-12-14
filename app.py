@@ -242,7 +242,7 @@ app.layout = html.Div([
             n_clicks=0
         ),
         dcc.Markdown(
-            """Your results go here! 🙌"""
+            """Your results go here! 🙌""",
             id='output-markdown',
             containerProps=dict(
                 style=dict(textAlign='center',paddingTop='25px',width="100vw",maxWidth="550px",margin='auto')
