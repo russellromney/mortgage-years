@@ -19,6 +19,7 @@ app = dash.Dash(
     meta_tags=metas
 )
 
+app.title="How many years to pay off my mortgage"
 server = app.server
 
 styledict_slidertitle=dict(paddingBottom="0px",textAlign='center',width="100vw",maxWidth="400px",margin='auto')
