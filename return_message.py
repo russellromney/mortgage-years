@@ -41,7 +41,7 @@ of boxed wine and keep doing what you're doing.
 
 ##### You should pay off your mortgage in about: **{} years**
 
-Sounds like you're a little more cautious about debt, income stability, or continuing market returns. That's okay! Just make your risks a little smaller and reduce interest costs a little bit by putting a little extra money toward your mortgage each month.
+Sounds like you're more cautious about debt, income stability, or continuing market returns. That's okay! Just make your risks smaller and reduce interest costs a bit by putting extra money toward your mortgage each month.
 
 ---
 """.format(round(quotient*years,1))
